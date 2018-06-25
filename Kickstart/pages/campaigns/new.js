@@ -8,6 +8,7 @@ import { Router } from '../../routes';
 class CampaignNew extends Component {
   state = {
     minimumContribution: '',
+    description: '',
     errorMessage: '',
     isLoading: false
   };
@@ -16,13 +17,20 @@ class CampaignNew extends Component {
     event.preventDefault();
     this.setState({ isLoading: true, errorMessage: '' });
     try {
-      const accounts = await web3.eth.getAccounts();
-      await factory.methods
-        .createCampaign(this.state.minimumContribution)
-        .send({ from: accounts[0] });
-      Router.pushRoute('/');
+      if (this.state.description == '') {
+        throw 'Please enter a description';
+      }
+      try {
+        const accounts = await web3.eth.getAccounts();
+        await factory.methods
+          .createCampaign(this.state.minimumContribution, this.state.description)
+          .send({ from: accounts[0] });
+        Router.pushRoute('/');
+      } catch (err) {
+        this.setState({ errorMessage: err.message });
+      }
     } catch (err) {
-      this.setState({ errorMessage: err.message });
+      this.setState({ errorMessage: err });
     }
 
     this.setState({ isLoading: false });
@@ -41,6 +49,13 @@ class CampaignNew extends Component {
               labelPosition="right"
               value={this.state.minimumContribution}
               onChange={event => this.setState({ minimumContribution: event.target.value })}
+            />
+          </Form.Field>
+          <Form.Field>
+            <label>Description</label>
+            <Input
+              value={this.state.description}
+              onChange={event => this.setState({ description: event.target.value })}
             />
           </Form.Field>
           <Message error header="Error:" content={this.state.errorMessage} />

@@ -25,6 +25,28 @@ class CampaignIndex extends Component {
     return <Card.Group items={items} />;
   }
 
+  // renderCampaigns() {
+  //   let items = new Array();
+  //   console.log('Creates array');
+  //   this.props.campaigns.forEach(campaign => {
+  //     console.log(campaign);
+  //     console.log('');
+  //     console.log(this.props.campaigns);
+  //     items.push({
+  //       header: campaign,
+  //       description: (
+  //         <Link route={`/campaigns/${campaign}`}>
+  //           <a>View Campaign</a>
+  //         </Link>
+  //       ),
+  //       meta: campaign.description,
+  //       fluid: true
+  //     });
+  //     console.log('completed element');
+  //   });
+  //   return <Card.Group items={items} />;
+  // }
+
   render() {
     return (
       <Layout>
