@@ -8,14 +8,15 @@ class ContributeForm extends Component {
   state = {
     value: '',
     errorMessage: '',
-    loading: false
+    loading: false,
+    isSuccess: false
   };
 
   onSubmit = async event => {
     event.preventDefault();
     const campaign = Campaign(this.props.address);
 
-    this.setState({ loading: true, errorMessage: '' });
+    this.setState({ loading: true, errorMessage: '', isSuccess: false });
 
     try {
       const accounts = await web3.eth.getAccounts();
@@ -27,7 +28,7 @@ class ContributeForm extends Component {
     } catch (err) {
       this.setState({ errorMessage: err.message });
     }
-    this.setState({ loading: false, value: '' });
+    this.setState({ loading: false, value: '', isSuccess: true });
   };
 
   render() {
@@ -42,7 +43,11 @@ class ContributeForm extends Component {
             labelPosition="right"
           />
         </Form.Field>
-        <Message error header="Error:" content={this.state.errorMessage} />
+        {this.state.isSuccess ? (
+          <Message error header="Error:" content={this.state.errorMessage} />
+        ) : (
+          <Message success header="Success" />
+        )}
         <Button primary loading={this.state.loading}>
           Contribute!
         </Button>

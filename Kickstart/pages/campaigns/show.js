@@ -10,6 +10,7 @@ class CampaignShow extends Component {
   static async getInitialProps(props) {
     const campaign = Campaign(props.query.address);
     const summary = await campaign.methods.getSummary().call();
+    const description = await campaign.methods.description().call();
 
     return {
       minimumContribution: summary[0],
@@ -17,43 +18,56 @@ class CampaignShow extends Component {
       requestCount: summary[2],
       approversCount: summary[3],
       manager: summary[4],
-      address: props.query.address
+      address: props.query.address,
+      description: description
     };
   }
 
   renderCards() {
-    const { balance, manager, minimumContribution, requestCount, approversCount } = this.props;
+    const {
+      balance,
+      manager,
+      minimumContribution,
+      requestCount,
+      approversCount,
+      description
+    } = this.props;
 
+    console.log(description);
     const items = [
       {
-        header: manager,
-        meta: 'Address of Manager',
-        description: 'The manager created this campaign and can create requests to withdraw money',
+        description: manager,
+        header: 'Address of Manager',
+        meta: 'The manager created this campaign and can create requests to withdraw money',
         style: { overflowWrap: 'break-word' }
       },
       {
-        header: minimumContribution,
-        meta: 'Minimum Contribution (wei)',
-        description: 'You must contribute this much way to be a contributer',
+        description: description,
+        header: 'Description',
+        meta: 'A brief description of the campaign'
+      },
+      {
+        description: minimumContribution,
+        header: 'Minimum Contribution (wei)',
+        meta: 'You must contribute this much way to be a contributer',
         style: { overflowWrap: 'break-word' }
       },
       {
-        header: requestCount,
-        meta: 'Number of Requests',
-        description:
-          'A request tries to withdraw money from the campaign to use towards the product',
+        description: requestCount,
+        header: 'Number of Requests',
+        meta: 'A request tries to withdraw money from the campaign to use towards the product',
         style: { overflowWrap: 'break-word' }
       },
       {
-        header: approversCount,
-        meta: 'Number of Contributers',
-        description: 'The number of people who have already donated to campaign',
+        description: approversCount,
+        header: 'Number of Contributers',
+        meta: 'The number of people who have already donated to campaign',
         style: { overflowWrap: 'break-word' }
       },
       {
-        header: web3.utils.fromWei(balance, 'ether'),
-        meta: 'Campaign Balance (ether)',
-        description: 'The amount of money availible to the campaign'
+        description: web3.utils.fromWei(balance, 'ether'),
+        header: 'Campaign Balance (ether)',
+        meta: 'The amount of money availible to the campaign'
       }
     ];
 
