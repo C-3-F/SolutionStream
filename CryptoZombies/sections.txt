@@ -1,0 +1,24 @@
+Welcome, human!
+So you think you have what it takes to become a CryptoZombie, huh?
+
+This course will teach you how to build a game on Ethereum.
+
+It's designed for beginners to Solidity, but it assumes you have some experience programming in another language (e.g. Javascript).
+
+Are you ready to get started?
+
+
+
+
+
+
+Lesson 4: Zombie Battle System
+The time has come, human...
+
+Time to make your zombies FIGHT!
+
+But zombie battles aren't for the faint of heart...
+
+In this lesson, we're going to be putting together a lot of the concepts you've learned in previous chapters to build out a zombie battle function. We're also going to learn about payable functions, and how to build DApps that can accept money from players.
+
+Are you ready to get started?
