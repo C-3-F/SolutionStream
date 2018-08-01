@@ -1,4 +1,24 @@
-/* PAGE */
+.cell-title {
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 30px;
+}
+
+.cell-content {
+  font-size: 18px;
+}
+
+.form {
+  width: 50%;
+  margin: auto;
+  margin-top: 30px;
+}
+
+/* PAGE
+
+
+
+
 
 body,
 .pure-g [class*=pure-u] {
@@ -34,7 +54,7 @@ code {
   border-color: #0c1a2b;
 }
 
-/* NAVBAR */
+
 
 .navbar {
   position: fixed;
@@ -65,4 +85,4 @@ code {
 .navbar .uport-logo {
   height: 16px;
   margin-right: 10px;
-}
+} */
