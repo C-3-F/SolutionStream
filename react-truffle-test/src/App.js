@@ -128,7 +128,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App" style={{ textAlign: 'center', marginTop: '20px' }}>
+      <div className="App" style={{ textAlign: 'center', marginTop: '20px', marginBottom: '50px' }}>
         <h1>Hashnode Crowdsale Recreation</h1>
         <hr />
 

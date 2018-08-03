@@ -7,25 +7,38 @@ class ContributeForm extends Component {
     errorMessage: '',
     loading: false,
     isSuccess: false,
-    tokenMode: false
+    tokenMode: false,
+    tokenAddress: ''
   };
+
+  checkValue(value) {
+    value = parseFloat(value);
+    if (!value > 0) {
+      throw { message: 'Please enter a value greater than 0' };
+    }
+  }
 
   onSubmit = async event => {
     event.preventDefault();
     const web3 = this.props.web3;
     const contract = this.props.contract;
+    const tokenAddress = await contract.token();
 
-    this.setState({ loading: true, errorMessage: '', isSuccess: false });
-    const value = this.state.tokenMode ? this.state.value : this.state.value;
-    // console.log(this.props);
-    // console.log(this.state);
+    this.setState({ loading: true, errorMessage: '', isSuccess: false, tokenAddress });
+    let value;
+
+    this.state.tokenMode
+      ? (value = this.state.value)
+      : (value = (this.state.value / (await contract.rate())).toString());
+
     try {
+      console.log(value);
+      this.checkValue(value);
       const accounts = await web3.eth.getAccounts();
-      console.log(accounts);
-      console.log(web3);
+
       await contract.sendTransaction({
         from: accounts[0],
-        value: this.props.web3.utils.toWei(this.state.value, 'ether')
+        value: this.props.web3.utils.toWei(value, 'ether')
       });
       this.setState({ isSuccess: true });
     } catch (err) {
@@ -35,66 +48,39 @@ class ContributeForm extends Component {
   };
 
   render() {
-    return this.state.tokenMode ? (
+    return (
       <div>
-        <Checkbox
-          slider
-          checked={this.state.tokenMode}
-          onChange={() => this.setState({ tokenMode: !this.state.tokenMode })}
-        />
         <Form onSubmit={this.onSubmit} error={!!this.state.errorMessage}>
           <Form.Field>
             <label>Buy Tokens</label>
             <Input
               value={this.state.value}
               onChange={event => this.setState({ value: event.target.value })}
-              label="ETH"
               labelPosition="right"
-            />
-          </Form.Field>
-          {!this.state.isSuccess ? (
-            <Message error header="Error:" content={this.state.errorMessage} />
-          ) : (
-            <Message positive header="Success" content="" />
-          )}
+              actionPosition="left"
+            >
+              <Label>
+                <Checkbox
+                  slider
+                  checked={this.state.tokenMode}
+                  onChange={() => this.setState({ tokenMode: !this.state.tokenMode })}
+                />
+                <br />
+                Unit
+              </Label>
 
-          {this.state.loading ? (
-            <Button
-              primary
-              loading
-              label={{
-                as: 'div',
-                basic: true,
-                content: 'Writing to the Blockchain... This may take a moment',
-                color: 'blue'
-              }}
-            />
-          ) : (
-            <Button primary>Purchase</Button>
-          )}
-        </Form>
-      </div>
-    ) : (
-      <div>
-        <Checkbox
-          slider
-          checked={this.state.tokenMode}
-          onChange={() => this.setState({ tokenMode: !this.state.tokenMode })}
-        />
-        <Form onSubmit={this.onSubmit} error={!!this.state.errorMessage}>
-          <Form.Field>
-            <label>Buy Tokens</label>
-            <Input
-              value={this.state.value}
-              onChange={event => this.setState({ value: event.target.value })}
-              label="Tokens"
-              labelPosition="right"
-            />
+              <input />
+              <Label>{this.state.tokenMode ? 'ETH' : 'Tokens'}</Label>
+            </Input>
           </Form.Field>
           {!this.state.isSuccess ? (
             <Message error header="Error:" content={this.state.errorMessage} />
           ) : (
-            <Message positive header="Success" content="" />
+            <Message
+              positive
+              header="Success"
+              content={`Token Contract Address: ${this.state.tokenAddress}`}
+            />
           )}
 
           {this.state.loading ? (
