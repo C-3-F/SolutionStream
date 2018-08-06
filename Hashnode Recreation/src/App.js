@@ -132,18 +132,7 @@ class App extends Component {
         <h1>Hashnode Crowdsale Recreation</h1>
         <hr />
 
-        <div
-          style={{
-            backgroundColor: 'lightgray',
-            width: '50%',
-            borderRadius: '5px',
-            boxShadow: '0 2px 10px 0 rgba(0,0,0,0.3)',
-            margin: 'auto',
-            marginTop: '100px',
-            paddingTop: '50px',
-            paddingBottom: '50px'
-          }}
-        >
+        <div className="info">
           <h2 style={{ fontSize: '36px' }}>Hashnode Test Crowdsale</h2>
           <p style={{ fontSize: '24px' }}>{CROWDSALE_ADDRESS}</p>
           <h2 style={{ fontSize: '30px' }}>Amount Raised</h2>
